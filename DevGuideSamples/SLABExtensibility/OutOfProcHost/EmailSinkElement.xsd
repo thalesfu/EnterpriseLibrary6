@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="EmailEventSinkElement"
+    targetNamespace="urn:sample.etw.emailsink"
+    xmlns="urn:sample.etw.emailsink"
+    xmlns:etw="http://schemas.microsoft.com/practices/2013/entlib/semanticlogging/etw"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"           
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <xs:element name="emailSink">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="host" type="xs:string" use="required" />
+      <xs:attribute name="port" type="xs:int" use="required" />
+      <xs:attribute name="credentials" type="xs:string" use="required" />
+      <xs:attribute name="recipients" type="xs:string" use="required" />
+      <xs:attribute name="subject" type="xs:string" use="optional" />
+      
+    </xs:complexType>
+  </xs:element>
+  
+  
+</xs:schema>

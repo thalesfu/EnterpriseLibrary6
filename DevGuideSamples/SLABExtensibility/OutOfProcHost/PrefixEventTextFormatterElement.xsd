@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PrefixEventTextFormatterElement"
+    targetNamespace="urn:sample.etw.customformatter"
+    xmlns="urn:sample.etw.customformatter"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"           
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <xs:element name="prefixEventTextFormatter">
+    <xs:complexType>
+      <xs:attribute name="header" type="xs:string" use="required" />
+      <xs:attribute name="footer" type="xs:string" use="required" />
+      <xs:attribute name="prefix" type="xs:string" use="required" />
+      <xs:attribute name="dateTimeFormat" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

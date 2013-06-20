@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<configuration xmlns="http://schemas.microsoft.com/practices/2013/entlib/semanticlogging/etw"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:sample.etw.customformatter PrefixEventTextFormatterElement.xsd
+               urn:sample.etw.emailsink EmailSinkElement.xsd
+               http://schemas.microsoft.com/practices/2013/entlib/semanticlogging/etw SemanticLogging-svc.xsd">
+
+  <!-- 
+  
+       This sample requires a credential named "etw" in the Windows Credential Store.
+       This credential is used to log onto an smtp service of your choice (such as smtp.live.com).
+       
+       You will need to modify the SMTP host and port numbers for your environment
+       and select a suitable email address to send to.
+  
+  -->
+  
+  
+  <!-- Optional settings for this host -->
+  <traceEventService />
+  
+  <!-- Sink definitions used by this host to listen ETW events emited by the EventSource instances-->
+  <sinks>
+    <consoleSink name="Consolesink">
+      <sources>
+        <eventSource name="MyCompany" level="LogAlways" />
+      </sources>
+
+      <!-- Choose between one of the following three formatter definitions -->
+      
+      <!-- Option 1: Built-in formatter -->
+      <eventTextFormatter header="================================================================"/>
+
+      <!-- Option 2: Use the customEventTextFormatter element to load a simple custom formatter -->
+      <!--<customEventTextFormatter type="CustomTextFormatter.PrefixEventTextFormatter, CustomTextFormatter">
+        <parameters>
+          <parameter name="header" type="System.String" value="==============================================================="/>
+          <parameter name="footer" type="System.String" value="==============================================================="/>
+          <parameter name="prefix" type="System.String" value="> "/>
+          <parameter name="dateTimeFormat" type="System.String" value="O"/>
+        </parameters>
+      </customEventTextFormatter>-->
+
+      <!-- Option 3: Use custom formatter extension to load a simple custom formatter -->
+      <!-- *** Question: How to get this to work? -->
+      <!--<prefixEventTextFormatter xmlns="urn:sample.etw.customformatter"
+                              header="==============================================================="
+                              footer="==============================================================="
+                              prefix="# "
+                              dateTimeFormat="O"/>-->
+    </consoleSink>
+
+    <!-- Choose between one of the following two methods to configure the custom sink -->
+
+    <!-- 1. Use simple custom sink -->
+    <customSink name="SimpleCustomEmailSink" type ="CustomSinkExtension.EmailSink, CustomSinkExtension">
+      <sources>
+        <eventSource name="MyCompany" level="Critical" />
+      </sources>
+      <parameters>
+        <parameter name="host" type="System.String" value="smtp.live.com" />
+        <parameter name="port" type="System.Int32" value="587" />
+        <parameter name="recipients" type="System.String" value="bill@adatum.com" />
+        <parameter name="subject" type="System.String" value="Simple Custom Email Sink" />
+        <parameter name="credentials" type="System.String" value="etw" />
+        <parameter name ="formatter" type="Microsoft.Practices.EnterpriseLibrary.SemanticLogging.Formatters.EventTextFormatter, Microsoft.Practices.EnterpriseLibrary.SemanticLogging">
+          <parameters>
+            <parameter name="header" type="System.String" value="[#########################################]" />
+            <parameter name="footer" type="System.String" value=""/>
+            <parameter name="verbosityThreshold" type="System.Diagnostics.Tracing.EventLevel" value="2"/>
+            <parameter name="dateTimeFormat" type="System.String" value="O"/>
+          </parameters>
+        </parameter>
+      </parameters>
+    </customSink>
+
+    <!-- 2. Use a custom sink extension -->
+    <!--<ext:emailSink xmlns:ext="urn:sample.etw.emailsink" credentials="etw" host="smtp.live.com" name="ExtensionEmailSink" port="587" recipients="bill@adatum.com" subject="Extension Email Sink">
+      <sources>
+        <eventSource name="MyCompany" level="Critical" />
+      </sources>
+      <eventTextFormatter header="**************************************"/>
+    </ext:emailSink>-->
+  </sinks>
+
+</configuration>
+
+
